@@ -32,5 +32,8 @@
     "serve": "parcel src/index.html",
     "build": "parcel build",
     "pub": "npm version patch --force && npm run build && npm publish"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
