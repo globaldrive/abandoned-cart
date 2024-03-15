@@ -12,12 +12,29 @@
   Plugin demo
 </p>
 
+<ul id="content-element">
+  <li>Order №1 ― $17.99 x 1</li>
+  <li>Order №2 ― $10.99 x 2</li>
+  <li>Order №3 ― $19.49 x 1</li>
+</ul>
+
+<form id="form-element">
+  <input id="phone-input" type="tel" placeholder="Enter your phone">
+  <input id="name-input" type="text" placeholder="Enter your name">
+  <input id="email-input" type="email" placeholder="Enter your email">
+  <button id="submit-button" type="submit">Send</button>
+</form>
+
 
 <script src="abandoned-cart.ts" type="module"></script>
 <script>
   window.addEventListener('DOMContentLoaded', function () {
     new AbandonedCart({
-      test: 'test',
+      phoneInputSelector: '#phone-input',
+      emailInputSelector: '#email-input',
+      nameInputSelector: '#name-input',
+      contentElementSelector: '#content-element',
+      submitButtonSelector: '#submit-button',
     })
   })
 </script>
