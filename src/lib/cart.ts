@@ -1,10 +1,8 @@
 import type { Config } from "./types";
 import { destroyAbandonedCart, getElementBySelector, storeAbandonedCart, updateAbandonedCart } from "./utils"
-import { LOCALSTORAGE_KEY } from "./vars"
-
 
 export const useCart = (config: Config) => {
-    let abandonedCartItemUuid = localStorage.getItem(LOCALSTORAGE_KEY)
+    let abandonedCartItemUuid: string | null = null
 
     const phoneInput = getElementBySelector<HTMLInputElement>(config.phoneInputSelector)
     const emailInput = getElementBySelector<HTMLInputElement>(config.emailInputSelector)
@@ -12,7 +10,7 @@ export const useCart = (config: Config) => {
     const contentElement = getElementBySelector<HTMLElement>(config.contentElementSelector)
     const submitButton = getElementBySelector<HTMLButtonElement>(config.submitButtonSelector)
 
-    const getData = (): object => {
+    const getData = () => {
         return {
             phone: phoneInput?.value,
             email: emailInput?.value,
@@ -22,10 +20,16 @@ export const useCart = (config: Config) => {
     }
 
     const handlePhoneInputBlur = async (): Promise<void> => {
+        const data = getData()
+
+        if (!data.phone) {
+            return
+        }
+
         if (abandonedCartItemUuid) {
-            await updateAbandonedCart(abandonedCartItemUuid, getData())
+            await updateAbandonedCart(abandonedCartItemUuid, data)
         } else {
-            const response = await storeAbandonedCart(getData())
+            const response = await storeAbandonedCart(data)
 
             if (response.ok) {
                 const data = await response.json() as {
@@ -34,29 +38,21 @@ export const useCart = (config: Config) => {
                     }
                 }
 
-                localStorage.setItem(LOCALSTORAGE_KEY, data.data.uuid)
                 abandonedCartItemUuid = data.data.uuid
             }
         }
     }
 
-    const handleSubmitButtonClick = async (event: Event): Promise<void> => {
+    const handleSubmitButtonClick = async (): Promise<void> => {
         if (!abandonedCartItemUuid) {
             return
         }
 
-        event.preventDefault()
-
         const response = await destroyAbandonedCart(abandonedCartItemUuid)
 
         if (response.ok) {
-            localStorage.removeItem(LOCALSTORAGE_KEY)
             abandonedCartItemUuid = null
         }
-
-        const button = (event.currentTarget || event.target) as HTMLButtonElement
-
-        setTimeout(() => button.click())
     }
 
     const init = (): void => {
