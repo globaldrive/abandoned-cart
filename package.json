@@ -1,5 +1,5 @@
 {
-  "name": "abandoned-cart",
+  "name": "abandoned-cart-plugin",
   "version": "1.0.0",
   "main": "dist/global/abandoned-cart.js",
   "targets": {
