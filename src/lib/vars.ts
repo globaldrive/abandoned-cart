@@ -1,1 +1,1 @@
-export const API_URL = 'https://my.gddev.ru/abandoned-cart'
+export const API_URL = 'https://my.globaldrive.ru/abandoned-cart'
