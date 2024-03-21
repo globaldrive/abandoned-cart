@@ -19,6 +19,7 @@ Cart details will be sent to `https://my.globaldrive.ru/abandoned-cart`.
       nameInputSelector: '#name-input', // optional
       contentElementSelector: '#content-element', // optional
       submitButtonSelector: '#submit-button',
+      sourceId: 122,
   })
 </script>
 ```

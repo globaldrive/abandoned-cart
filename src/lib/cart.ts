@@ -1,4 +1,4 @@
-import type { Config } from "./types";
+import { Config, StoreAbandonedCartResponse } from "./types"
 import { destroyAbandonedCart, getElementBySelector, storeAbandonedCart, updateAbandonedCart } from "./utils"
 
 export const useCart = (config: Config) => {
@@ -16,30 +16,29 @@ export const useCart = (config: Config) => {
             email: emailInput?.value,
             name: nameInput?.value,
             content: contentElement?.innerText,
+            source_id: config.sourceId,
         }
     }
 
     const handlePhoneInputBlur = async (): Promise<void> => {
         const data = getData()
 
-        if (!data.phone) {
+        if (!data.phone || !data.source_id) {
             return
         }
 
         if (abandonedCartItemUuid) {
             await updateAbandonedCart(abandonedCartItemUuid, data)
-        } else {
-            const response = await storeAbandonedCart(data)
 
-            if (response.ok) {
-                const data = await response.json() as {
-                    data: {
-                        uuid: string
-                    }
-                }
+            return
+        }
 
-                abandonedCartItemUuid = data.data.uuid
-            }
+        const response = await storeAbandonedCart(data)
+
+        if (response.ok) {
+            const data: StoreAbandonedCartResponse = await response.json()
+
+            abandonedCartItemUuid = data.data.uuid
         }
     }
 

@@ -4,4 +4,11 @@ export type Config = {
     nameInputSelector?: string
     contentElementSelector?: string
     submitButtonSelector: string
+    sourceId: number
+}
+
+export type StoreAbandonedCartResponse = {
+    data: {
+        uuid: string
+    }
 }
