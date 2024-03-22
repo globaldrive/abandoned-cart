@@ -4,7 +4,7 @@ import { LOCALSTORAGE_KEY } from "./vars"
 
 export const useCart = (config: Config) => {
     let abandonedCartItemUuid: string | null = localStorage.getItem(LOCALSTORAGE_KEY)
-    let ycClientId: string | number | null = null
+    let ymClientId: string | number | null = null
 
     const phoneInput = getElementBySelector<HTMLInputElement>(config.phoneInputSelector)
     const emailInput = getElementBySelector<HTMLInputElement>(config.emailInputSelector)
@@ -19,7 +19,7 @@ export const useCart = (config: Config) => {
             name: nameInput?.value,
             content: contentElement?.innerText,
             source_id: config.sourceId,
-            client_id: ycClientId,
+            client_id: ymClientId,
         }
     }
 
@@ -67,11 +67,11 @@ export const useCart = (config: Config) => {
 
     let tries = 0
     const getYandexMetricaClientId = (): void => {
-        window.ym && window.ym(config.ycId, 'getClientID', (clientId?: string | number) => {
-            ycClientId = clientId || null
+        window.ym && window.ym(config.ymId, 'getClientID', (clientId?: string | number) => {
+            ymClientId = clientId || null
         })
 
-        if (!ycClientId && tries < 4) {
+        if (!ymClientId && tries < 4) {
             tries++
             setTimeout(getYandexMetricaClientId, 1000)
         }

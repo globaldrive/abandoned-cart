@@ -2,7 +2,7 @@ type YandexMetricaMethods = 'getClientID'
 
 declare global {
     interface Window {
-        ym?: (ycId: number | string, method: YandexMetricaMethods, callback: (clientId?: string | number) => void) => void
+        ym?: (ymId: number | string, method: YandexMetricaMethods, callback: (clientId?: string | number) => void) => void
     }
 }
 
@@ -13,7 +13,7 @@ export type Config = {
     contentElementSelector?: string
     submitButtonSelector: string
     sourceId: number
-    ycId?: number | string
+    ymId?: number | string
 }
 
 export type StoreAbandonedCartResponse = {
