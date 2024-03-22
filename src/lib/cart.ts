@@ -4,6 +4,7 @@ import { LOCALSTORAGE_KEY } from "./vars"
 
 export const useCart = (config: Config) => {
     let abandonedCartItemUuid: string | null = localStorage.getItem(LOCALSTORAGE_KEY)
+    let ycClientId: string | number | null = null
 
     const phoneInput = getElementBySelector<HTMLInputElement>(config.phoneInputSelector)
     const emailInput = getElementBySelector<HTMLInputElement>(config.emailInputSelector)
@@ -18,6 +19,7 @@ export const useCart = (config: Config) => {
             name: nameInput?.value,
             content: contentElement?.innerText,
             source_id: config.sourceId,
+            client_id: ycClientId,
         }
     }
 
@@ -63,10 +65,24 @@ export const useCart = (config: Config) => {
         setTimeout(() => button.click())
     }
 
+    let tries = 0
+    const getYandexMetricaClientId = (): void => {
+        window.ym && window.ym(config.ycId, 'getClientID', (clientId?: string | number) => {
+            ycClientId = clientId || null
+        })
+
+        if (!ycClientId && tries < 4) {
+            tries++
+            setTimeout(getYandexMetricaClientId, 1000)
+        }
+    }
+
     const init = (): void => {
         if (!phoneInput || !submitButton) {
             return
         }
+
+        getYandexMetricaClientId()
 
         phoneInput.addEventListener('blur', handlePhoneInputBlur)
         emailInput?.addEventListener('blur', handlePhoneInputBlur)
