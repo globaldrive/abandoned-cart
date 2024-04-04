@@ -18,13 +18,7 @@
   <li>Order №3 ― $19.49 x 1</li>
 </ul>
 
-<form id="form-element">
-  <input id="phone-input" type="tel" placeholder="Enter your phone">
-  <input id="name-input" type="text" placeholder="Enter your name">
-  <input id="email-input" type="email" placeholder="Enter your email">
-  <button id="submit-button" type="submit">Send</button>
-</form>
-
+<form id="form-element"></form>
 
 <script src="abandoned-cart.ts" type="module"></script>
 <script>
@@ -38,6 +32,13 @@
       sourceId: 122,
       ymId: 96821999,
     })
+
+    document.querySelector('#form-element')?.insertAdjacentHTML('afterbegin', `
+      <input id="phone-input" type="tel" placeholder="Enter your phone">
+      <input id="name-input" type="text" placeholder="Enter your name">
+      <input id="email-input" type="email" placeholder="Enter your email">
+      <button id="submit-button" type="submit">Send</button>
+    `)
   })
 </script>
 <!-- Yandex.Metrika counter -->

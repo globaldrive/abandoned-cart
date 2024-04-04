@@ -1,16 +1,16 @@
 import { Config, StoreAbandonedCartResponse } from "./types"
-import { destroyAbandonedCart, getElementBySelector, storeAbandonedCart, updateAbandonedCart } from "./utils"
+import { destroyAbandonedCart, getAsyncElement, storeAbandonedCart, updateAbandonedCart } from "./utils"
 import { LOCALSTORAGE_KEY } from "./vars"
 
-export const useCart = (config: Config) => {
+export const useCart = async (config: Config) => {
     let abandonedCartItemUuid: string | null = localStorage.getItem(LOCALSTORAGE_KEY)
     let ymClientId: string | number | null = null
 
-    const phoneInput = getElementBySelector<HTMLInputElement>(config.phoneInputSelector)
-    const emailInput = getElementBySelector<HTMLInputElement>(config.emailInputSelector)
-    const nameInput = getElementBySelector<HTMLInputElement>(config.nameInputSelector)
-    const contentElement = getElementBySelector<HTMLElement>(config.contentElementSelector)
-    const submitButton = getElementBySelector<HTMLButtonElement>(config.submitButtonSelector)
+    const phoneInput = await getAsyncElement<HTMLInputElement>(config.phoneInputSelector)
+    const emailInput = await getAsyncElement<HTMLInputElement>(config.emailInputSelector)
+    const nameInput = await getAsyncElement<HTMLInputElement>(config.nameInputSelector)
+    const contentElement = await getAsyncElement<HTMLElement>(config.contentElementSelector)
+    const submitButton = await getAsyncElement<HTMLButtonElement>(config.submitButtonSelector)
 
     const getData = () => {
         return {
