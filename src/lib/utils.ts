@@ -7,13 +7,11 @@ export const getAsyncElement = <T extends Element>(selector: string | null | und
         }
 
         if (document.querySelector(selector)) {
-            console.log('resolve', selector)
             return resolve(document.querySelector<T>(selector));
         }
 
         const observer = new MutationObserver(mutations => {
             if (document.querySelector(selector)) {
-                console.log('DA', selector)
                 observer.disconnect();
                 resolve(document.querySelector<T>(selector));
             }
