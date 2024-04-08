@@ -1,5 +1,5 @@
 import { Config, StoreAbandonedCartResponse } from "./types"
-import { destroyAbandonedCart, getAsyncElement, storeAbandonedCart, updateAbandonedCart } from "./utils"
+import {debounce, destroyAbandonedCart, getAsyncElement, storeAbandonedCart, updateAbandonedCart} from "./utils"
 import { LOCALSTORAGE_KEY } from "./vars"
 
 export const useCart = async (config: Config) => {
@@ -79,18 +79,24 @@ export const useCart = async (config: Config) => {
 
     const init = (): void => {
         if (!phoneInput || !submitButton) {
+            console.warn('Abandoned cart form is not initialized. Phone input or submit button not found.')
             return
         }
 
         getYandexMetricaClientId()
 
-        phoneInput.addEventListener('blur', handlePhoneInputBlur)
-        emailInput?.addEventListener('blur', handlePhoneInputBlur)
-        nameInput?.addEventListener('blur', handlePhoneInputBlur)
+        phoneInput.addEventListener('input', debounce(handlePhoneInputBlur, 1000))
+        emailInput?.addEventListener('input', debounce(handlePhoneInputBlur, 1000))
+        nameInput?.addEventListener('input', debounce(handlePhoneInputBlur, 1000))
         submitButton.addEventListener('click', handleSubmitButtonClick)
     }
 
     return {
         init,
+        phoneInput,
+        emailInput,
+        nameInput,
+        contentElement,
+        submitButton,
     }
 }

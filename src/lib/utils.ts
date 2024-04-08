@@ -50,3 +50,13 @@ export const destroyAbandonedCart = async (uuid: string): Promise<Response> => {
         method: 'DELETE',
     })
 }
+
+export function debounce(func: Function, timeout = 300) {
+    let timer: number
+    return (...args) => {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+            func.apply(this, args)
+        }, timeout);
+    }
+}
