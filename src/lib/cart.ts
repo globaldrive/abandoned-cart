@@ -85,9 +85,11 @@ export const useCart = async (config: Config) => {
 
         getYandexMetricaClientId()
 
-        phoneInput.addEventListener('input', debounce(handlePhoneInputBlur, 1000))
-        emailInput?.addEventListener('input', debounce(handlePhoneInputBlur, 1000))
-        nameInput?.addEventListener('input', debounce(handlePhoneInputBlur, 1000))
+        const handler = debounce(handlePhoneInputBlur, 1000)
+
+        phoneInput.addEventListener('input', handler)
+        emailInput?.addEventListener('input', handler)
+        nameInput?.addEventListener('input', handler)
         submitButton.addEventListener('click', handleSubmitButtonClick)
     }
 
